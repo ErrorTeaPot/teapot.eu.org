@@ -106,4 +106,8 @@ int is_exploitable(struct arguments *arguments)
         return 0;
 }
 ```
-The 3 required checking are done into those 3 functions. 
+The 3 required checking are done into those 3 functions.
+
+# Finding the PT_NOTE segment header
+
+Second, we need to find if the binary have a PT_NOTE segment header that is safe to overwrite. This header is a type that is made for auxiliary information, using it to load and execute code is known as PT_NOTE attacks.

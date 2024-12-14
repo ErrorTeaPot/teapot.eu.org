@@ -68,6 +68,10 @@
     @apply hidden;
   }
 
+  .prose p {
+    @apply text-justify;
+  }
+
   /* ===== scrollbar ===== */
   html {
     overflow-y: scroll;
@@ -100,6 +104,10 @@
   code,
   blockquote {
     word-wrap: break-word;
+  }
+
+  blockquote {
+    text-justify: auto;
   }
 
   pre > code {

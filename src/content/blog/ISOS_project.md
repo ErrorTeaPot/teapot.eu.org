@@ -111,3 +111,53 @@ The 3 required checking are done into those 3 functions.
 # Finding the PT_NOTE segment header
 
 Second, we need to find if the binary have a PT_NOTE segment header that is safe to overwrite. This header is a type that is made for auxiliary information, using it to load and execute code is known as PT_NOTE attacks.
+
+To find it, we will go through each program header, look at its type and if it corresponds to what we are looking for then we save its index. This part is done into the `int get_first_pt_note_header(struct arguments *arguments);` function, with the arguments given by the user to be able to use the binary name. 
+
+There is the code of this function :
+```c
+int get_first_pt_note_header(struct arguments *arguments)
+{
+    [...]
+    struct stat binary_info;
+    if (fstat(int_fd, &binary_info) == -1)
+    {
+        perror("Unable to get binary stats");
+        goto _cleanup_fd;
+    }
+
+    Elf64_Ehdr *mapped_elf_file = mmap(NULL, binary_info.st_size, PROT_READ, MAP_PRIVATE, int_fd, 0);
+    if (mapped_elf_file == NULL)
+    {
+        perror("Unable to mmap the binary");
+        goto _cleanup_fd;
+    }
+
+    // Get the program headers
+    // We cast at first he mapped_elf_file ptr to char* so as to be able to add the offset without problems
+    Elf64_Phdr *program_headers = (Elf64_Phdr *)((uintptr_t)mapped_elf_file + mapped_elf_file->e_phoff);
+    for (int i = 0; i < mapped_elf_file->e_phnum; i++)
+    {
+        // Get the p_type field
+        uint32_t p_type = program_headers->p_type;
+
+        // Check if the p_type field is PT_NOTE
+        if (p_type == PT_NOTE)
+        {
+            // Close the file descriptor
+            if (fclose(fd) == EOF)
+                perror("Failed to close the file descriptor");
+            // Unmap the binary file from memory
+            if (munmap(mapped_elf_file, binary_info.st_size) == -1)
+                err(EXIT_FAILURE, "unmaping failed");
+            return i;
+        }
+        // Move to the next program header
+        program_headers++;
+    }
+    [...]
+}
+```
+I have removed basic parts where I am opening the file and at the end where I am closing it and managing errors to make it easier to read. First, I `mmap()` the binary we are working on to work on it later. Then, I create a pointer to the beginning of the program headers by going to the first address (`mapped_elf_file`) + the offset to the program headers (`e_phoff`). Then I can go through each program header in the for loop, in which I check each program header type (`p_type`) and save its index if we are on the desired one. 
+
+This function is then returning the index at which PT_NOTE is, or -1 if none have been found. 

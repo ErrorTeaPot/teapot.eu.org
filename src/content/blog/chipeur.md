@@ -2,7 +2,7 @@
 author: Gabin Le Saout
 pubDatetime: 2025-02-19T21:29:00Z
 title: Chipeur (Swiper)
-featured: true
+featured: false
 draft: false
 tags: 
   - school_projects

@@ -1,7 +1,7 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://errortea.pt/", // replace this with your deployed domain
+  website: "https://teapot.eu.org/",
   author: "ErrorTeaPot",
   desc: "My personnal website",
   title: "ErrorTeaPot",
@@ -9,7 +9,12 @@ export const SITE: Site = {
   lightAndDarkMode: true,
   postPerIndex: 4,
   postPerPage: 3,
-  scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
+  scheduledPostMargin: 15 * 60 * 1000,
+  editPost: {
+    url: "https://github.com/ErrorTeaPot/teapot.eu.org/edit/main/src/content/blog",
+    text: "Suggest Changes",
+    appendFilePath: true,
+  },
 };
 
 export const LOCALE = {

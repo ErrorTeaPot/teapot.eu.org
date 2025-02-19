@@ -12,14 +12,14 @@ description: This article will describe the project done during ISOS at school
 # Introduction
 This project has been done during the ISOS lab lessons. The objective was to inject some code and execute it into a given ELF binary. It is not binary dependant, as long as it is an ELF one it should work. 
 
-To help us conducting this, the steps have been divided into multiple challenges. I am following this structure for this article
+To help us conducting this, the steps has been divided into multiple challenges. I am following this structure for this article
 
 ## Table of contents
 
 # Initializing things
 ## Arguments
 First we need to create our C file and write the argument parsing part. We needed to do it using `argp()`, handling the necessary files and a `--help`.
-This part have been done into a dedicated C file named `arg_parser.c`. 
+This part has been done into a dedicated C file named `arg_parser.c`. 
 
 There are some requirements to make it work :
 - Variables to describe how we want arguments to be given
@@ -160,4 +160,4 @@ int get_first_pt_note_header(struct arguments *arguments)
 ```
 I have removed basic parts where I am opening the file and at the end where I am closing it and managing errors to make it easier to read. First, I `mmap()` the binary we are working on to work on it later. Then, I create a pointer to the beginning of the program headers by going to the first address (`mapped_elf_file`) + the offset to the program headers (`e_phoff`). Then I can go through each program header in the for loop, in which I check each program header type (`p_type`) and save its index if we are on the desired one. 
 
-This function is then returning the index at which PT_NOTE is, or -1 if none have been found. 
+This function is then returning the index at which PT_NOTE is, or -1 if none has been found. 

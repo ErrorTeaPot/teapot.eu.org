@@ -39,6 +39,12 @@ At the end we will have in one case, a string in the .rdata section, possible to
 Great, something allocated at runtime, so it is harder to read. In practice, you will still get it back in seconds using Ghidra. That is why we have added obfuscation on characters and stored them as an XORed version.
 
 # Anti-debug techniques
-TODO()
+Great, we have interesting strings now ! Another thing we could do to make analysts work harder is to detect debuggers and react accordingly. 
+Based on [this Lockbits ransomware analysis](https://chuongdong.com/reverse%20engineering/2022/03/19/LockbitRansomware/#anti-analysis-anti-debug-check) I have seen that we need to check at the Process Environment Block (PEB). What is it ?
+
+The PEB is a data structure mostly used by the operating system that contains information such as global context, startup parameters or data structures. One of the fields documented by Microsoft is "BeingDebugged", there we go. Another mentionned thing is "Microsoft recommends not using this field but using the official Win32 CheckRemoteDebuggerPresent() library function instead."
+
+Now that we know how to detect debuggers (better things could be done such as detecting breakpoints but this is an easy solution) let's react to it. The logical decision would be to stop our program but it is not funny, it is funnier to enter an infinite loop : much more diabolical. 
+
 # Dynamic API resolution
 TODO()

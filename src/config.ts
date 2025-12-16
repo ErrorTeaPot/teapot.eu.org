@@ -31,6 +31,12 @@ export const LOGO_IMAGE = {
 
 export const SOCIALS: SocialObjects = [
   {
+    name: "Signal",
+    href: "https://signal.org",
+    linkTitle: ` ${SITE.title} on Signal`,
+    active: false,
+  },
+  {
     name: "Github",
     href: "https://github.com/ErrorTeaPot",
     linkTitle: ` ${SITE.title} on Github`,
@@ -56,9 +62,9 @@ export const SOCIALS: SocialObjects = [
   },
   {
     name: "Mail",
-    href: "mailto:yourmail@gmail.com",
+    href: "mailto:teapot.eu.org.3jgo2@simplelogin.com",
     linkTitle: `Send an email to ${SITE.title}`,
-    active: false,
+    active: true,
   },
   {
     name: "Twitter",
